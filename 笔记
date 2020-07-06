@@ -1,3 +1,5 @@
+------------------------------------------------------------------------
+Django  路由     ----->
 1 新建app startapp appname
 2 migrations 用于数据库迁移的工作
 3 apps文件 也就是Django的配置文件 tests 其实就是一个自动化测试的模块
@@ -54,5 +56,110 @@ urlpatterns = [
 1 url定位资源 简单的来说 通过一个url地址我们可以可以让我们知道这个地址所需要我们提供的资源功能是什么
 2 简单的说url一切都是资源
 3 GET方法获取资源的时候使用 POST提交资源的时候比如我们注册一个用户的时候 PUT修改资源的时候使用 DELETE删除资源的时候使用比如注销我们的账号
-4
+
+
+
+--------------------------------------------------------------------------------------------
+Django Template    ---->
+静态文件配置  --- 内置标签
+*** for循环 ***
+<ul>
+{% for athlete in athlete_list %}
+    <li>{{ athlete.name }}</li>
+{% endfor %}
+</ul>
+
+循环遍历数组中的每个项目，使项目在上下文变量中可用
+forloop.counter	 循环的当前迭代（1索引）
+forloop.counter0	循环的当前迭代（0索引）
+forloop.revcounter	循环结束时的迭代次数（1索引）
+forloop.revcounter0	循环结束时的迭代次数（0索引）
+forloop.first	如果这是第一次通过循环，则为真
+forloop.last	如果这是最后一次循环，则为真
+forloop.parentloop	对于嵌套循环，这是围绕当前循环的循环
+
+***  load  ***
+加载自定义模板标记集。
+例如，以下模板将加载在包中注册somelibrary和otherlibrary位于包中的 所有标记和过滤器package
+{% load somelibrary package.otherlibrary %}
+您还可以使用from参数从库中选择性地加载单个过滤器或标记。在此示例中，模板标记/过滤器已命名foo 并将bar从somelibrary以下位置加载
+{% load foo bar from somelibrary %}
+
+*** url ***
+回与给定视图和可选参数匹配的绝对路径引用（不带域名的URL）。将使用编码生成的路径中的任何特殊字符iri_to_uri()。
+{% url 'some-url-name' v1 v2 %}
+
+
+****  for...... empty  ****
+该for标签可以使用一个可选条款，其文本显示，如果给定的数组为空或无法找到：{% empty %}
+
+<ul>
+{% for athlete in athlete_list %}
+    <li>{{ athlete.name }}</li>
+{% empty %}
+    <li>Sorry, no athletes in this list.</li>(为空显示此条)
+{% endfor %}
+</ul>
+
+------------> Django模版内置过滤器
+用html模版中，对渲染过来的数据进行二次使用，在python中使用的是函数，过滤器其实就是用来对这种二次数数据进行处理模版中的使用函数。
+1、add ：将value的值增加2。使用形式为：{{ value | add: "2"}}。
+2、addslashes：在value中的引号前增加反斜线。使用形式为：{{ value | addslashes }}。
+3、capfirst：value的第一个字符转化成大写形式。使用形式为：{{ value | capfirst }}。
+4、cut：从给定value中删除所有arg的值。使用形式为：{{ value | cut:arg}}。
+5、date: 格式化时间格式。使用形式为：{{ value | date:"Y-m-d H:M:S" }}
+6、default：如果value是False，那么输出使用缺省值。使用形式：{{ value | default: "nothing" }}。例如，如果value是“”，那么输出将是nothing
+7、default_if_none：如果value是None，那么输出将使用缺省值。使用形式：{{ value | default_if_none:"nothing" }}，例如，如果value是None，那么输出将是nothing
+8、dictsort：如果value的值是一个字典，那么返回值是按照关键字排序的结果
+使用形式：{{ value | dictsort:"name"}}，例如，
+如果value是：
+[{'name': 'python'},{'name': 'java'},{'name': 'c++'},]
+那么，输出是：
+[{'name': 'c++'},{'name': 'java'},{'name': 'python'}, ]
+9、dictsortreversed：如果value的值是一个字典，那么返回值是按照关键字排序的结果的反序。使用形式：与dictsort过滤器相同。
+14、first：返回列表/字符串中的第一个元素。使用形式：{{ value | first }}
+18、last：返回列表/字符串中的最后一个元素。使用形式：{{ value | last }}
+
+17、join：使用指定的字符串连接一个list，作用如同python的str.join(list)。使用形式：{{ value | join:"arg"}}，如果value是['a','b','c']，arg是'//'那么输出是a//b//c
+19、length：返回value的长度。使用形式：{{ value | length }}
+20、length_is：如果value的长度等于arg的时候返回True。使用形式：{{ value | length_is:"arg"}}。例如：如果value是['a','b','c']，arg是3，那么返回True
+32、safe：当系统设置autoescaping打开的时候，该过滤器使得输出不进行escape转换。使用形式：{{value | safe}}
+30、random：从给定的list中返回一个任意的Item。使用形式：{{value | random}}
+34、slice：与python语法中的slice相同。使用形式：{{some_list | slice:"2"}}
+42、upper：转换一个字符串为大写形式
+43、urlencode：将一个字符串进行URLEncode
+44,  urllize
+
+46、wordcount：返回字符串中单词的数目
+37、striptags：删除value中的所有HTML标签.使用形式：{{value | striptags}}
+38、time：格式化时间输出。使用形式：{{value | time:"H:i"}}或者{{value | time}}
+------------>  自定义过滤器
+在Django服务端编写函数，在模版中可以直接调用的过滤器函数 这就是我们自定义的过滤器
+
+
+
+
+------------> 其它模版引擎
+
+1 jinjia2 模版引擎是用flask开发的   分布式开发 
+2 mako模版是python中语法支持比较多的一个语法 他渲染的程度是要比jinjia2国更加快的，也是可以随意在html中书写python代码
+
+
+------------> jinjia2 应用 
+jinja中的静态文件导入
+配置文件书写
+setting文件 template修改默认模版配置  路径配置
+
+
+-----------> mako 模版
+<%
+    def name():
+        return 'nam is my name'
+%>
+
+<input type="text" name="username" value="${name()}" />  直接调用函数 mako 
+
+
+
+
 
